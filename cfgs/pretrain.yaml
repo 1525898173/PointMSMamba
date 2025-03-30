@@ -1,0 +1,55 @@
+optimizer : {
+  type: AdamW,
+  kwargs: {
+  lr : 0.001,
+  weight_decay : 0.05
+}}
+
+scheduler: {
+  type: CosLR,
+  kwargs: {
+    epochs: 300,
+    initial_epochs : 10
+}}
+
+dataset : {
+  train : { _base_: cfgs/dataset_configs/ShapeNet-55.yaml,
+            others: {subset: 'train', npoints: 2048}},
+  val : { _base_: cfgs/dataset_configs/ShapeNet-55.yaml,
+            others: {subset: 'test', npoints: 2048}},
+  test : { _base_: cfgs/dataset_configs/ShapeNet-55.yaml,
+            others: {subset: 'test', npoints: 2048}},
+  svm : {
+          train: { _base_: cfgs/dataset_configs/ModelNet40_SVM.yaml,
+                    others: {partition: 'train', num_points: 1024}},
+          val: { _base_: cfgs/dataset_configs/ModelNet40_SVM.yaml,
+                    others: {partition: 'test', num_points: 1024}},
+          test: { _base_: cfgs/dataset_configs/ModelNet40_SVM.yaml,
+                    others: {partition: 'test', num_points: 1024}}}
+          }
+
+model : {
+  NAME : Point_M2AE_Mamba,
+  mask_ratio : 0.8,
+  # tokenizers
+  group_sizes : [16, 8, 8],
+  num_groups : [512, 256, 64],
+  # hierarchical encoder
+  depths : [5, 5, 5],
+  trans_dims : [96, 192, 384],
+  encoder_dims : [96, 192, 384],
+  # hierarchical decoder
+  decoder_depths : [1, 1],
+  decoder_dims : [384, 192],
+  decoder_up_blocks : [1, 1],
+  # others
+  rms_norm : False,
+  drop_path : 0.1,
+  drop_out : 0.,
+  k_group_size: 4,
+}
+
+npoints: 2048
+total_bs : 128
+step_per_update : 1
+max_epoch : 300

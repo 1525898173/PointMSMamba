@@ -1,0 +1,10 @@
+model: "pt_mamba"
+depths: [5, 5, 5]
+group_sizes: [16, 8, 8]
+num_groups: [512, 256, 64]
+trans_dims: [96, 192, 384]
+encoder_dims: [96, 192, 384]
+rms_norm: False
+drop_path: 0.2
+drop_out: 0.
+k_group_size: 4
