@@ -166,10 +166,6 @@ class EdgeGraphModule(nn.Module):
         )
 
     def _knn(self, x, k):
-        """
-        x: Tensor of shape (B, C, N)
-        返回每个点的 k 个近邻索引，输出 shape: (B, N, k)
-        """
         inner = -2 * torch.matmul(x.transpose(2, 1), x)
         xx = torch.sum(x ** 2, dim=1, keepdim=True)
         pairwise_distance = -xx - inner - xx.transpose(2, 1)
@@ -177,10 +173,6 @@ class EdgeGraphModule(nn.Module):
         return idx
 
     def _get_graph_feature(self, x, k, idx=None):
-        """
-        x: Tensor of shape (B, C, N)
-        返回拼接后的局部特征，输出 shape: (B, 2*C, N, k)
-        """
         batch_size = x.size(0)
         num_points = x.size(2)
         # 保证 x shape 为 (B, C, N)
@@ -206,11 +198,6 @@ class EdgeGraphModule(nn.Module):
         return feature
 
     def forward(self, x, center):
-        """
-        x: 输入点云特征，原始形状 (B, dim, N_points)，例如 (B, 384, 64)
-        center: 中心点，形状 (B, dim_center, N_center)，例如 (B, 384, 3)
-        输出: 处理后的特征，形状 (B, N_center, dim)
-        """
         idx = self._knn(center.permute(0, 2, 1), k=self.k)  # (B, N_center, k)
         x_graph = self._get_graph_feature(x.permute(0, 2, 1), k=self.k, idx=idx)  # (B, 2*dim, N_center, k)
 
