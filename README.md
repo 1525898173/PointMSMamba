@@ -1,6 +1,6 @@
 <div align="center">
 <h1>PointMSMamba</h1>
-<h3>A Multi-scale State Space Model for Point Cloud Analysis with Edge Graph Enhancement</h3>
+<h3>Enhancing Point Cloud Analysis with Multi-scale State Space Modeling and Edge Graph Augmentation</h3>
 </div>
 
 
