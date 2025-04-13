@@ -91,7 +91,7 @@ CUDA_VISIBLE_DEVICES=<GPU> python main.py --config cfgs/config.yaml --log_dir <o
 CUDA_VISIBLE_DEVICES=<GPU> python main.py --config cfgs/config.yaml --ckpts <path/to/pre-trained/model> --log_dir <output_file_name>
 ```
 
-## 7.Citation
+## 7. Citation
 
 If you find this repository useful in your research, please consider giving a star ⭐ and a citation
 
